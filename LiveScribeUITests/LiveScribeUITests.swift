@@ -16,4 +16,31 @@ final class LiveScribeUITests: XCTestCase {
         continueAfterFailure = false
         app.launch()
     }
+    
+    func testImputExists() {
+        _ = app.textViews.firstMatch.waitForExistence(timeout: 1)
+        XCTAssertEqual(app.textViews.count, 1, "There should be one text editor for the user to type into.")
+    }
+    
+    func testOutputExists() {
+        // because webViews are async, we need to wait for the webView to exist
+        let webViewExists = app.webViews.firstMatch.waitForExistence(timeout: 1)
+        XCTAssertTrue(webViewExists, "There should be one WKWebView for the user to see their rendered output.")
+    }
+    
+    func testOutputMatchesInput() {
+        _ = app.webViews.firstMatch.waitForExistence(timeout: 1)
+        _ = app.textViews.firstMatch.waitForExistence(timeout: 1)
+        let targetText = UUID().uuidString
+        
+        app.textViews.firstMatch.tap()
+        app.typeText(targetText)
+        XCTAssertTrue(app.webViews.firstMatch.staticTexts[targetText].exists, "Typing into the text editor should create matching output.")
+        
+    }
+    
+    func testSplitterExists() {
+        XCTAssertEqual(app.splitters.count, 1, "There should be one splitter to separate the text editor and the web view.")
+    }
+    
 }
