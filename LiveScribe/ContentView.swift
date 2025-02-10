@@ -13,7 +13,8 @@ struct ContentView: View {
     var body: some View {
         HSplitView {
             TextEditor(text: $input)
-            SimpleWebView(content: input)
+                .padding()
+            SimpleWebView(content: MarkdownParser(markdown: input).text)
         }
     }
 }

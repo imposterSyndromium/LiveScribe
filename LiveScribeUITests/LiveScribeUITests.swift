@@ -43,4 +43,12 @@ final class LiveScribeUITests: XCTestCase {
         XCTAssertEqual(app.splitters.count, 1, "There should be one splitter to separate the text editor and the web view.")
     }
     
+    func testLinksWork() {
+        _ = app.webViews.firstMatch.waitForExistence(timeout: 1)
+        _ = app.textViews.firstMatch.waitForExistence(timeout: 1)
+        app.textViews.firstMatch.tap()
+        app.typeText("[Learn Swift](https://www.hackingwithswift.com)")
+        XCTAssertEqual(app.links.count, 1, "Creating a link should make it tappable.")
+    }
+    
 }
