@@ -4,6 +4,9 @@
 //
 //  Created by Robin O'Brien on 2025-02-09.
 //
+
+
+
 @testable import LiveScribe
 import Foundation
 import Testing
@@ -58,6 +61,16 @@ struct LiveScribeTests {
         let uuid = UUID().uuidString
         let input = "[\(uuid)](https://www.hackingwithswift.com/\(uuid))"
         let output = "<p><a href=\"https://www.hackingwithswift.com/\(uuid)\">\(uuid)</a></p>"
+        let markdown = MarkdownParser(markdown: input)
+        #expect(markdown.text == output)
+    }
+    
+    @Test(arguments: 1...6)
+    func heading(number: Int) {
+        let uuid = UUID().uuidString
+        let headingString = String(repeating: "#", count: number)
+        let input = "\(headingString) \(uuid)"
+        let output = "<h\(number)>\(uuid)</h\(number)>"
         let markdown = MarkdownParser(markdown: input)
         #expect(markdown.text == output)
     }
