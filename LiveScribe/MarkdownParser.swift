@@ -75,5 +75,17 @@ struct MarkdownParser: MarkupVisitor {
     }
     
     
+    mutating func visitHeading(_ heading: Heading) -> String {
+        var result = "<h\(heading.level)>"
+        
+        for child in heading.children {
+            result += visit(child)
+        }
+        
+        result += "</h\(heading.level)>"
+        return result
+    }
+    
+    
     
 }
